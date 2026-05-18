@@ -38,8 +38,8 @@
         const ctx = document.getElementById('myChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
-            data: {
-                labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+            data: [10, 12, 11, 14, 13, 18, 25],
+
                 datasets: [{
                     label: 'Рост портфеля (%)',
                     data: [10, 12, 11, 15, 18, 20, 25],
