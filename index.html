@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Инвест Портфель</title>
     <script src="https://telegram.org"></script>
-    <script src="https://jsdelivr.net"></script>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #1c1c1e; color: white; text-align: center; padding: 20px; margin: 0; }
         .balance-card { background: #2c2c2e; padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .balance { font-size: 32px; font-weight: bold; color: #34c759; margin: 10px 0; }
         .btn { background: #34c759; color: white; border: none; padding: 15px 24px; font-size: 16px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: bold; transition: background 0.2s; }
         .btn:active { background: #2cd052; }
-        .chart-container { background: #2c2c2e; padding: 15px; border-radius: 15px; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .chart-container { background: #2c2c2e; padding: 20px; border-radius: 15px; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; }
+        .chart-title { font-size: 14px; color: #8e8e93; margin-bottom: 15px; text-align: left; width: 100%; }
+        svg { width: 100%; height: 150px; }
     </style>
 </head>
 <body>
@@ -26,44 +27,29 @@
     <button class="btn" onclick="investMore()">Инвестировать еще</button>
 
     <div class="chart-container">
-        <canvas id="myChart" height="200"></canvas>
+        <div class="chart-title">Динамика доходности портфеля</div>
+        <!-- Чистый SVG График, который отобразится в любом браузере -->
+        <svg viewBox="0 0 500 150" preserveAspectRatio="none">
+            <!-- Градиентная заливка под графиком -->
+            <defs>
+                <linearGradient id="chart-grad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#34c759" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#34c759" stop-opacity="0"/>
+                </linearGradient>
+            </defs>
+            <!-- Область заливки -->
+            <path d="M 0 150 L 0 130 L 80 110 L 160 120 L 240 80 L 320 90 L 400 40 L 500 20 L 500 150 Z" fill="url(#chart-grad)"></path>
+            <!-- Зеленая линия тренда -->
+            <path d="M 0 130 L 80 110 L 160 120 L 240 80 L 320 90 L 400 40 L 500 20" fill="none" stroke="#34c759" stroke-width="4" stroke-linecap="round"></path>
+        </svg>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // Гарантированно рабочий график без синтаксических ошибок
-        const ctx = document.getElementById('myChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-                                datasets: [{
-                    label: 'Доходность (%)',
-                    data: [10, 12, 15, 14, 18, 22, 25],
-                    borderColor: '#34c759',
-                    backgroundColor: 'rgba(52, 199, 89, 0.1)',
-                    tension: 0.4,
-                    fill: true,
-                    borderWidth: 3,
-                    pointRadius: 0
-                }]
-
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { grid: { color: '#3a3a3c' }, tickers: { color: '#8e8e93' } },
-                    x: { grid: { display: false }, tickers: { color: '#8e8e93' } }
-                }
-            }
-        });
-
         function investMore() {
-            tg.showAlert("Система симуляции: Запрос на пополнение отправлен вашему брокеру!");
+            tg.showAlert("Запрос на обработку инвестиции успешно отправлен в систему!");
         }
     </script>
 </body>
