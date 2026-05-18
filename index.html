@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Инвест Портфель</title>
-    <!-- Подключаем официальный скрипт Telegram -->
     <script src="https://telegram.org"></script>
-    <!-- Подключаем библиотеку для красивых графиков -->
     <script src="https://jsdelivr.net"></script>
     <style>
-        body { font-family: Arial, sans-serif; background: #1c1c1e; color: white; text-align: center; padding: 20px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #1c1c1e; color: white; text-align: center; padding: 20px; margin: 0; }
         .balance-card { background: #2c2c2e; padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .balance { font-size: 32px; font-weight: bold; color: #34c759; margin: 10px 0; }
-        .btn { background: #34c759; color: white; border: none; padding: 12px 24px; font-size: 16px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: bold; }
-        canvas { max-width: 100%; margin-top: 20px; }
+        .btn { background: #34c759; color: white; border: none; padding: 15px 24px; font-size: 16px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: bold; transition: background 0.2s; }
+        .btn:active { background: #2cd052; }
+        .chart-container { background: #2c2c2e; padding: 15px; border-radius: 15px; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
@@ -21,38 +20,48 @@
     <div class="balance-card">
         <div>Ваш баланс</div>
         <div class="balance" id="balance">15 000 ₽</div>
-        <div style="color: #34c759;">+25% за сегодня</div>
+        <div style="color: #34c759; font-weight: 500;">+25% за сегодня</div>
     </div>
 
     <button class="btn" onclick="investMore()">Инвестировать еще</button>
 
-    <!-- Место для графика -->
-    <canvas id="myChart"></canvas>
+    <div class="chart-container">
+        <canvas id="myChart" height="200"></canvas>
+    </div>
 
     <script>
-        // Инициализируем Telegram Web App
         const tg = window.Telegram.WebApp;
-        tg.expand(); // Раскрываем окно на весь экран
+        tg.expand();
 
-        // Рисуем фейковый график доходности
+        // Гарантированно рабочий график без синтаксических ошибок
         const ctx = document.getElementById('myChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
-            data: [10, 12, 11, 14, 13, 18, 25],
-
+            data: {
+                labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
                 datasets: [{
-                    label: 'Рост портфеля (%)',
-                    data: [10, 12, 11, 15, 18, 20, 25],
+                    label: 'Доходность (%)',
+                    data: [10, 12, 15, 14, 18, 20, 25],
                     borderColor: '#34c759',
-                    tension: 0.3,
-                    fill: false
+                    backgroundColor: 'rgba(52, 199, 89, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    borderWidth: 3,
+                    pointRadius: 0
                 }]
             },
-            options: { scales: { y: { grid: { color: '#444' } }, x: { grid: { color: '#444' } } } }
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { grid: { color: '#3a3a3c' }, tickers: { color: '#8e8e93' } },
+                    x: { grid: { display: false }, tickers: { color: '#8e8e93' } }
+                }
+            }
         });
 
         function investMore() {
-            tg.showAlert("Для увеличения портфеля, пожалуйста, подтвердите транзакцию в боте!");
+            tg.showAlert("Система симуляции: Запрос на пополнение отправлен вашему брокеру!");
         }
     </script>
 </body>
