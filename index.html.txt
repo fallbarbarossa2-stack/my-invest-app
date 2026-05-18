@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Инвест Портфель</title>
+    <!-- Подключаем официальный скрипт Telegram -->
+    <script src="https://telegram.org"></script>
+    <!-- Подключаем библиотеку для красивых графиков -->
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #1c1c1e; color: white; text-align: center; padding: 20px; }
+        .balance-card { background: #2c2c2e; padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .balance { font-size: 32px; font-weight: bold; color: #34c759; margin: 10px 0; }
+        .btn { background: #34c759; color: white; border: none; padding: 12px 24px; font-size: 16px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: bold; }
+        canvas { max-width: 100%; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="balance-card">
+        <div>Ваш баланс</div>
+        <div class="balance" id="balance">15 000 ₽</div>
+        <div style="color: #34c759;">+25% за сегодня</div>
+    </div>
+
+    <button class="btn" onclick="investMore()">Инвестировать еще</button>
+
+    <!-- Место для графика -->
+    <canvas id="myChart"></canvas>
+
+    <script>
+        // Инициализируем Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Раскрываем окно на весь экран
+
+        // Рисуем фейковый график доходности
+        const ctx = document.getElementById('myChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+                datasets: [{
+                    label: 'Рост портфеля (%)',
+                    data: [10, 12, 11, 15, 18, 20, 25],
+                    borderColor: '#34c759',
+                    tension: 0.3,
+                    fill: false
+                }]
+            },
+            options: { scales: { y: { grid: { color: '#444' } }, x: { grid: { color: '#444' } } } }
+        });
+
+        function investMore() {
+            tg.showAlert("Для увеличения портфеля, пожалуйста, подтвердите транзакцию в боте!");
+        }
+    </script>
+</body>
+</html>
