@@ -59,15 +59,14 @@
 
             try {
                 // Запрашиваем цены к доллару и переводим условно в рубли (курс ~92)
-                const btcRes = await fetch('https://coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=rub');
-                const btcData = await btcRes.json();
-                const btcPrice = (parseFloat(btcData.price) * 92).toLocaleString('ru-RU', { maximumFractionDigits: 0 });
-                document.getElementById('btc-price').innerText = btcPrice + ' ₽';
+                        const res = await fetch('https://coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=rub');
+        const data = await res.json();
+        
+        const btcPrice = Math.round(data.bitcoin.rub).toLocaleString('ru-RU');
+        document.getElementById('btc-price').innerText = btcPrice + ' ₽';
 
-                const ethRes = await fetch('https://binance.com/api/v3/ticker/price?symbol=ETHUSDT');
-                const ethData = await ethRes.json();
-                const ethPrice = (parseFloat(ethData.price) * 92).toLocaleString('ru-RU', { maximumFractionDigits: 0 });
-                document.getElementById('eth-price').innerText = ethPrice + ' ₽';
+        const ethPrice = Math.round(data.ethereum.rub).toLocaleString('ru-RU');
+        document.getElementById('eth-price').innerText = ethPrice + ' ₽';
             } catch (err) {
                 document.getElementById('btc-price').innerText = 'Ошибка API';
                 document.getElementById('eth-price').innerText = 'Ошибка API';
