@@ -55,7 +55,8 @@
         tg.expand();
 
         // Получение реальных курсов криптовалют с биржевого API (Binance)
-        async def loadPrices() {
+        async function loadPrices() {
+
             try {
                 // Запрашиваем цены к доллару и переводим условно в рубли (курс ~92)
                 const btcRes = await fetch('https://binance.com');
