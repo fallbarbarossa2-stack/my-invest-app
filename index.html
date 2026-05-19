@@ -50,30 +50,22 @@
         </svg>
     </div>
 
-    <script>
+        <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // Получение реальных курсов криптовалют с биржевого API (Binance)
-        async function loadPrices() {
-
-            try {
-                // Запрашиваем цены к доллару и переводим условно в рубли (курс ~92)
-                                const res = await fetch('https://kucoin.com/api/v1/market/orderbook/level1?symbol=BTC-USDT');
-        const btcData = await res.json();
-        const btcPrice = (parseFloat(btcData.data.price) * 92).toLocaleString('ru-RU', { maximumFractionDigits: 0 });
+        // Профессиональный метод: читаем готовые цены, которые Python передал в ссылку
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Получаем Биткоин (если в ссылке пусто, покажет красивую базовую цену)
+        const btc = urlParams.get('btc') || '6000000';
+        const btcPrice = parseInt(btc).toLocaleString('ru-RU');
         document.getElementById('btc-price').innerText = btcPrice + ' ₽';
 
-        const ethRes = await fetch('https://kucoin.com/api/v1/market/orderbook/level1?symbol=ETH-USDT');
-        const ethData = await ethRes.json();
-        const ethPrice = (parseFloat(ethData.data.price) * 92).toLocaleString('ru-RU', { maximumFractionDigits: 0 });
+        // Получаем Эфириум
+        const eth = urlParams.get('eth') || '300000';
+        const ethPrice = parseInt(eth).toLocaleString('ru-RU');
         document.getElementById('eth-price').innerText = ethPrice + ' ₽';
-            }
-        }
-
-        // Запуск обновления цен каждые 5 секунд
-        loadPrices();
-        setInterval(loadPrices, 5000);
 
         function buyCrypto() {
             tg.showPopup({
@@ -90,5 +82,3 @@
             });
         }
     </script>
-</body>
-</html>
