@@ -54,31 +54,17 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // Профессиональный метод: читаем готовые цены, которые Python передал в ссылку
+                // Читаем баланс, Биткоин и Эфириум из ссылки от Python-бота
         const urlParams = new URLSearchParams(window.location.search);
         
-        // Получаем Биткоин (если в ссылке пусто, покажет красивую базовую цену)
+        // Получаем баланс пользователя
+        const balance = urlParams.get('balance') || '10000';
+        document.getElementById('user-balance').innerText = parseFloat(balance).toLocaleString('ru-RU') + ' ₽';
+        
+        // Получаем Биткоин
         const btc = urlParams.get('btc') || '6000000';
-        const btcPrice = parseInt(btc).toLocaleString('ru-RU');
-        document.getElementById('btc-price').innerText = btcPrice + ' ₽';
+        document.getElementById('btc-price').innerText = parseInt(btc).toLocaleString('ru-RU') + ' ₽';
 
         // Получаем Эфириум
         const eth = urlParams.get('eth') || '300000';
-        const ethPrice = parseInt(eth).toLocaleString('ru-RU');
-        document.getElementById('eth-price').innerText = ethPrice + ' ₽';
-
-        function buyCrypto() {
-            tg.showPopup({
-                title: 'Торговые операции',
-                message: 'Вы хотите открыть ордер на покупку по текущему рыночному курсу?',
-                buttons: [
-                    {id: 'buy', type: 'default', text: 'Купить BTC'},
-                    {id: 'cancel', type: 'destructive', text: 'Отмена'}
-                ]
-            }, function(buttonId) {
-                if (buttonId === 'buy') {
-                    tg.showAlert('Ордер успешно создан! Бэкенд зафиксировал сделку.');
-                }
-            });
-        }
-    </script>
+        document.getElementById('eth-price').innerText = parseInt(eth).toLocaleString('ru-RU') + ' ₽';
