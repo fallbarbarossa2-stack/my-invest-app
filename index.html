@@ -59,7 +59,7 @@
 
             try {
                 // Запрашиваем цены к доллару и переводим условно в рубли (курс ~92)
-                const btcRes = await fetch('https://binance.com/api/v3/ticker/price?symbol=BTCUSDT');
+                const btcRes = await fetch('https://coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=rub');
                 const btcData = await btcRes.json();
                 const btcPrice = (parseFloat(btcData.price) * 92).toLocaleString('ru-RU', { maximumFractionDigits: 0 });
                 document.getElementById('btc-price').innerText = btcPrice + ' ₽';
